@@ -15,6 +15,17 @@ private external object ReactRouter {
   val Link: FunctionalComponent
 }
 
+interface Match<P> {
+  val params: P
+  val isExact: Boolean
+  val path: String
+  val url: String
+}
+
+interface RouteChildrenProps<P> {
+  val match: Match<P>
+}
+
 fun BrowserRouter(vararg children: ReactNode): ReactNode {
   return createElement(
     ReactRouter.BrowserRouter,
@@ -23,12 +34,14 @@ fun BrowserRouter(vararg children: ReactNode): ReactNode {
   )
 }
 
-fun Route(
+fun <P> Route(
   path: String,
   exact: Boolean = false,
-  component: () -> Component
+  component: (props: RouteChildrenProps<P>) -> Component
 ): ReactNode {
-  val factory = { Component.build(component()) }
+  val factory = { props: RouteChildrenProps<P> ->
+    Component.build(component(props))
+  }
   return createElement(
     ReactRouter.Route,
     json(
@@ -36,6 +49,18 @@ fun Route(
       "exact" to exact,
       "component" to factory
     )
+  )
+}
+
+fun Route(
+  path: String,
+  exact: Boolean = false,
+  component: () -> Component
+): ReactNode {
+  return Route(
+    path = path,
+    exact = exact,
+    component = { _: RouteChildrenProps<Unit> -> component() }
   )
 }
 
