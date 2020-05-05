@@ -62,6 +62,8 @@ fun browserRouter(
     *children.toTypedArray()
 )
 
+fun browserRouter(vararg children: ReactElement<*>) = browserRouter(children = children.asList())
+
 fun hashRouter(
     children: List<ReactElement<*>> = emptyList()
 ) = React.createElement(
@@ -69,6 +71,8 @@ fun hashRouter(
     null,
     *children.toTypedArray()
 )
+
+fun hashRouter(vararg children: ReactElement<*>) = hashRouter(children = children.asList())
 
 fun memoryRouter(
     initialEntries: List<LocationDescriptor>? = null,
@@ -105,6 +109,8 @@ fun redirect(
 fun route(
     render: ((props: RouteComponentProps) -> ReactElement<*>)? = undefined,
     children: List<ReactElement<*>> = emptyList(),
+    child: ReactElement<*>? = null,
+    text: String? = null,
     path: String? = undefined,
     exact: Boolean? = undefined,
     sensitive: Boolean? = undefined,
@@ -118,7 +124,7 @@ fun route(
         "sensitive" to sensitive,
         "strict" to strict
     ),
-    *children.toTypedArray()
+    children = *concatChildrenToArray(children, child, text)
 )
 
 fun switch(
@@ -128,6 +134,8 @@ fun switch(
     null,
     *children.toTypedArray()
 )
+
+fun switch(vararg children: ReactElement<*>) = switch(children = children.asList())
 
 fun link(
     to: LocationDescriptor,
