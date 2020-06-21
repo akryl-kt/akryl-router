@@ -40,7 +40,7 @@ class RouteComponentProps(
 )
 
 fun router(
-  history: dynamic = undefined,
+  history: History? = undefined,
   children: List<ReactElement<*>> = emptyList()
 ) = React.createElement(
   ReactRouter.Router,
