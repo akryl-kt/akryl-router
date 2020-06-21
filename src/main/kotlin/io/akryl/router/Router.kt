@@ -19,27 +19,12 @@ external object ReactRouterDom {
 @JsModule("react-router")
 @JsNonModule
 external object ReactRouter {
+    val Router: Component<dynamic>
     val MemoryRouter: Component<dynamic>
     val Redirect: Component<dynamic>
     val Route: Component<dynamic>
     val Switch: Component<dynamic>
 }
-
-class LocationDescriptor(
-    val pathname: String? = undefined,
-    val search: String? = undefined,
-    val state: dynamic = undefined,
-    val hash: String? = undefined,
-    val key: String? = undefined
-)
-
-class Location(
-    val pathname: String,
-    val search: String,
-    val state: dynamic,
-    val hash: String,
-    val key: String?
-)
 
 class Match(
     val params: dynamic,
@@ -49,9 +34,20 @@ class Match(
 )
 
 class RouteComponentProps(
-    val history: dynamic,
+    val history: History,
     val location: Location,
     val match: Match
+)
+
+fun router(
+  history: dynamic = undefined,
+  children: List<ReactElement<*>> = emptyList()
+) = React.createElement(
+  ReactRouter.Router,
+  json(
+    "history" to history
+  ),
+  *children.toTypedArray()
 )
 
 fun browserRouter(

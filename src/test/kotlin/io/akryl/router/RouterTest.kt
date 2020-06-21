@@ -9,6 +9,13 @@ import kotlin.test.assertTrue
 
 class RouterTest {
     @Test
+    fun testRouter() {
+        assertIsComponent(
+            router()
+        )
+    }
+
+    @Test
     fun testMemoryRouter() {
         assertIsComponent(
             memoryRouter()
